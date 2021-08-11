@@ -1,0 +1,23 @@
+Actualización de ambiente de test
+
+1- Abrir Docker for Windows.
+2- Hacer build local con el comando "docker-compose build --parallel" parados en la carpeta del proyecto que queramos actualizar.
+3- Iniciamos sesión* en Azure (teniendo instalado el Azure CLI **) con el comando “az login -u {tu mail}”.
+4- Nos logueamos en el repositorio con el comando “az acr login --name goovatest”. En este repo es en donde se suben todas las imágenes de Docker.
+5- Hacemos push de la imagen que buildeamos en el paso 2 hacia el repositorio correspondiente a nuestro proyecto con el comando “docker push goovatest.azurecr.io/{Nombre del repo}”. En caso de teletón, por ejemplo, el nombre del repo sería “teletonapi”. Para actualizar CobroCorpo se tiene que hacer en el power shell y el comando para pushear los cambios es ".\cli-windows\push.ps1"
+6- Habiéndonos logueado en la VM de test (Véase cómo hacerlo en https://docs.google.com/document/d/159ifrqFnMg8zEZnjXN7CkKg_WFHDvEh4uKbDWBhtu6k/edit), repetimos el paso 3 y luego el 4 pero en esta otra máquina.
+7- Accedemos al directorio correspondiente al proyecto que queramos actualizar (“cd teletontest” en caso de teletón).
+8- Hacemos el pull de la imagen que buildeamos localmente con un “docker-compose pull”.
+9- Por último, levantamos la imagen con un “docker-compose up -d”. El parámetro “d” indica que se va a correr como un proceso demonio.
+
+
+*Puede solicitarse que se haga un logueo interactivo. Da las instrucciones de manera bastante clara.
+
+** Link de descarga: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli
+
+
+
+
+
+db608937-582f-4779-fa0b-08d91710c772 - Client Secret: b2sGsClTCKDb
+db608937-582f-4779-fa0b-08d91710c772 - Client Secret: b2sGsClTCKDb

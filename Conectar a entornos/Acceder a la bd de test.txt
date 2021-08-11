@@ -1,0 +1,39 @@
+
+
+1 - En el putty vas a carpeta de suscri
+2 - Ejecutas docker exec -it subscriptions.db /bin/bash 
+3 - subscriptionsdb es el nombre del contenedor, podes ver todos los nombres de contenedor haciendo docker ps (ahi estas adentoe del contenedo)
+4 - 
+	a- PARA SQL: si queres entrar a la base tenes que hacer /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'aQfRe34!rc3sQ1vfsd' (que es entrar al sqlcmd ahi operas como una bd normal)
+	b- PARA POSTGRESQL: psql {Nombre de la base}... ejemplo: psql PlexoLinks_Database
+
+	c- PARA MONGODB: poner mongo... ejemplo: mongo
+
+5 - Con "exit" se sale del contenedor
+
+
+
+------------------------------------------------------------
+
+Para ver las bases de datos "SELECT name FROM sys.databases" 
+LA BASE DE SUSCRIPCIONES SE LLAMA subscriptionsdb
+
+Para ver las tablas de una base de datos "SELECT * FROM information_schema.tables;"
+
+
+--------------------------------------------------------
+POSGRESQL 
+
+LISTAR LAS COLUMNAS DE UNA TABLA
+
+SELECT column_name FROM information_schema.columns WHERE table_schema = 'public' AND table_name   = 'tu_tabla'
+
+LISTAR LAS BD
+
+\l
+
+LISTAR LAS TABLAS DE UNA BD
+
+\dt
+
+--------------------------------------------------------

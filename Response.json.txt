@@ -1,0 +1,6 @@
+SUBSCRITIONTOKEN                   EXTERNALID  
+
+22d4c8048c2c4e0692b203b6d05a1664    507331 - OK
+4eadb1a383db4dc4a918acf9ec567b8f    489306 - OK
+d925e9b6f3e745d68a35bc5f0c3d233a    506875 ---- FUE CANCELADA voy a actualizarla en la bd y despues forzar el pago, ponerle estado 3
+3ec873f26aa44e07b99ab0a2c11e67f3    506832 - OK

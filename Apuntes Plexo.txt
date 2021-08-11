@@ -1,0 +1,38 @@
+
+ASP.NET CORE
+
+- Identity --- Manejo de usuarios y roles 
+
+- MediatR --- Manejo de la comunicacion entre servicios 
+
+- Claims ---
+
+- Integracion con Plexo
+
+	Objetos:
+	- PaymentRequest, datos para realizar pago en plexo
+	- Transaction, respuesta que va a devolver plexo, adentro va a contener un codigo de respuesta que es un IEnumerable (ResultCodes)
+
+	ATRIBUTOS
+	- RedirectToUri, es la url que se le envia a plexo para que redireccione desde plexo cuando se haga el pago.
+	- OptionalMetaData, cuando un cliente precisa algo mas especifico se le agrega los datos en ese campo cuando se envia al Purchase
+
+	Metodos:
+	- AuthorizeAsync, toma como para el Authorization y retornar una var respuesta que contiene ResultCodes, Respose (contiene la url de plexo y otros atributos),ErrorMessage y 18NErrorMessage. Con esta URL se tiene que agregar el medio de pago. Es un generador de sesion en plexo.
+	- UnwrapInstrumentCallbackAsync, vamos a ir a buscar el metodo de pago que se ingreso en el paso anterior en plexo, se guarda ese metodo de pago(instrument) en el cache 
+	- SignInstrumentCallback, luego de guardarlo en cache el metodo de pago se lo envia para firmar a plexo mediante este metodo. Esto va a devolver un objeto ClientSignedResponse que se va a insertar dentro del objeto PlexoCallbackCommandResponse.
+	- PurchaseAsync, toma como parametro el PaymentRequest y devuelve un Transaction. Este metodo es el que hace efectiva la compra contra plexo
+	- GetCommercesAsync, no tiene parametros de entrada y retorna el comercio de la transaccion
+	
+
+	Ejemplo de URL para probar tarjetas:
+	- https://testing.plexo.com.uy/Instruments/Chose?sessionid=37e7e98ef0aa407abc5c392fba6893fe
+
+
+ INSCRIPCION MANUAL DE MENSAJES. 
+- FOLDERS CON CERTIFICADOS DE PLEXO... Los certificados tienen una llave privada que nos da plexo cuando da de alta el cliente. El certificado lo que hace es ser utilizado por el SDK para firmar el request. Plexo verifica que los request sean firmados con la llave entregada al comercio. Se encripta por https.
+- 
+
+- Deploy y config de hosting (falta cuenta de azure)
+
+- Tarjetas de prueba ---> https://www.freeformatter.com/credit-card-number-generator-validator.html

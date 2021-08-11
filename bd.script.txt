@@ -1,0 +1,85 @@
+DECLARE @var2 sysname;
+SELECT @var2 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[ClientIssuers]') AND [c].[name] = N'PaymentFacilitatorCommerceId');
+IF @var2 IS NOT NULL EXEC(N'ALTER TABLE [ClientIssuers] DROP CONSTRAINT [' + @var2 + '];');
+ALTER TABLE [ClientIssuers] DROP COLUMN [PaymentFacilitatorCommerceId];
+
+GO
+
+ALTER TABLE [PaymentFacilitators] ADD [NotificationPermissionsId] int NULL;
+
+GO
+
+ALTER TABLE [PaymentFacilitatorConfiguration] ADD [PaymentFacilitatorCommerceId] int NOT NULL DEFAULT 0;
+
+GO
+
+CREATE TABLE [PaymentFacilitatorIssuer] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(max) NOT NULL,
+    [IssuerId] int NOT NULL,
+    [PaymentFacilitatorId] uniqueidentifier NULL,
+    CONSTRAINT [PK_PaymentFacilitatorIssuer] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_PaymentFacilitatorIssuer_Issuers_IssuerId] FOREIGN KEY ([IssuerId]) REFERENCES [Issuers] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_PaymentFacilitatorIssuer_PaymentFacilitators_PaymentFacilitatorId] FOREIGN KEY ([PaymentFacilitatorId]) REFERENCES [PaymentFacilitators] ([Id]) ON DELETE NO ACTION
+);
+
+GO
+
+CREATE INDEX [IX_PaymentFacilitators_NotificationPermissionsId] ON [PaymentFacilitators] ([NotificationPermissionsId]);
+
+GO
+
+CREATE INDEX [IX_PaymentFacilitatorIssuer_IssuerId] ON [PaymentFacilitatorIssuer] ([IssuerId]);
+
+GO
+
+CREATE INDEX [IX_PaymentFacilitatorIssuer_PaymentFacilitatorId] ON [PaymentFacilitatorIssuer] ([PaymentFacilitatorId]);
+
+GO
+
+ALTER TABLE [PaymentFacilitatorCommerceId] ADD CONSTRAINT [FK_PaymentFacilitatorCommerceId_PaymentFacilitators_PaymentFacilitatorId] FOREIGN KEY ([PaymentFacilitatorId]) REFERENCES [PaymentFacilitators] ([Id]) ON DELETE CASCADE;
+
+GO
+
+ALTER TABLE [PaymentFacilitators] ADD CONSTRAINT [FK_PaymentFacilitators_NotificationPermissions_NotificationPermissionsId] FOREIGN KEY ([NotificationPermissionsId]) REFERENCES [NotificationPermissions] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20210611141420_PFChanges', N'3.0.0');
+
+GO
+
+ALTER TABLE [PaymentFacilitatorCommerceId] DROP CONSTRAINT [FK_PaymentFacilitatorCommerceId_PaymentFacilitators_PaymentFacilitatorId];
+
+GO
+
+ALTER TABLE [PaymentFacilitatorCommerceId] ADD CONSTRAINT [FK_PaymentFacilitatorCommerceId_PaymentFacilitators_PaymentFacilitatorId] FOREIGN KEY ([PaymentFacilitatorId]) REFERENCES [PaymentFacilitators] ([Id]) ON DELETE CASCADE;
+
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20210624152021_PFCommerceId', N'3.0.0');
+
+GO
+
+ALTER TABLE [PaymentFacilitatorCommerceId] DROP CONSTRAINT [FK_PaymentFacilitatorCommerceId_PaymentFacilitators_PaymentFacilitatorId];
+
+GO
+
+ALTER TABLE [Clients] ADD [TaxApplies] bit NOT NULL DEFAULT CAST(0 AS bit);
+
+GO
+
+ALTER TABLE [PaymentFacilitatorCommerceId] ADD CONSTRAINT [FK_PaymentFacilitatorCommerceId_PaymentFacilitators_PaymentFacilitatorId] FOREIGN KEY ([PaymentFacilitatorId]) REFERENCES [PaymentFacilitators] ([Id]) ON DELETE CASCADE;
+
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20210702151543_TaxApplies', N'3.0.0');
+
+GO
+
