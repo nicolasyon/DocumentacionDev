@@ -1,0 +1,50 @@
+PARA PASAR DE NPM A YARN FIJARSE EN --->https://classic.yarnpkg.com/en/docs/migrating-from-npm/ 
+
+node -v --> Muestra la version de node js
+
+**Hay que instalar el yarn. El --g lo instala globalmente, osea, es para todos los archivos pero no aparece en el package**
+
+npm install --g yarn
+
+**Instala todo lo que se agrego en el package.json**
+
+npm init -y / yarn init - y  
+
+**Version**
+npm version / yarn version
+
+**Instala todos los paquetes de express**
+
+npm install --save express /  yarn add --save express
+
+
+**Despues de crear el index.js y index.html**
+**Corre el proyecto**
+
+npm start / yarn start
+
+**Instalar los paquetes de babel la version 7.12.13**
+
+npm install --save-dev @babel/core@7.12.13  
+
+**Despues hay que agregar las dependencias de ese paquete en el package.json**
+**Instala todo lo que se agrego en el package.json**
+
+npm install 
+
+**Sendgrid**
+
+npm install @sendgrid/mail / yarn add @sendgrid/mail
+
+----------------------------------------------------------------
+BASE DE DATOS
+
+**Crear carpeta de database y luego un archivo index.js**
+**Instalar los paquetes de mongo**
+
+npm install --save mongodb 
+
+**Crear clase de initializeDatabase.js**
+**Corre la base de datos para crearla y actualizarla**
+
+npm run init-db 
